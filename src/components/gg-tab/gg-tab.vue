@@ -1,7 +1,7 @@
 <template>
     <nav class="gg-tab">
-        <router-link tag="span" to="" class="active">正在播放</router-link>
-        <router-link tag="span" to="">推荐</router-link>
+        <router-link tag="span" to="/playlist" class="active">正在播放</router-link>
+        <router-link tag="span" to="/recommend">推荐</router-link>
         <router-link tag="span" to="">搜索</router-link>
         <router-link tag="span" to="">我的歌单</router-link>
         <router-link tag="span" to="">我听过的</router-link>
@@ -25,14 +25,14 @@
             padding 0 20px
             margin-right 10px
             border 1px solid hsla(0, 0, 100%, .6)
-            color hsla(0, 0, 100%, .6)
+            color rgba(255, 255, 255, .6)
             text-align center
             font-size 14px
-        span:hover
-            border 1px solid #fff
-            color 1px solid #fff
-            cursor pointer
+            &:hover
+                border 1px solid #fff
+                color #fff
+                cursor pointer
         .active
             border 1px solid #fff
-            color 1px solid #fff
+            color #fff
 </style>

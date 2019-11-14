@@ -2,6 +2,10 @@
     <div id="app">
         <gg-header></gg-header>
         <gg-main></gg-main>
+        <div class="music-bar">
+<!--            //隐藏的播放器-->
+            <audio src="../public/test.mp3"></audio>
+        </div>
     </div>
 </template>
 
@@ -19,7 +23,11 @@
 
 <style>
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: Arial, 'Avenir', Helvetica, sans-serif;
+        font-size: 14px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
     /*毛玻璃效果*/
     #app::before {
@@ -36,4 +44,12 @@
         opacity: .9;
         filter: blur(12px);
     }
+    .music-bar {
+        height: 80px;
+        width: 100%;
+        box-sizing: border-box;
+        padding-bottom: 15px
+        /*background #fff*/
+    }
+
 </style>

@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import fastclick from 'fastclick'
 import {Swiper, Slide} from 'vue-swiper-component'
-import './assets/stylus/reset.styl'
+import 'style/reset.styl'
 
 
 Vue.config.productionTip = false

@@ -2,37 +2,39 @@
     <div class="main">
         <div class="left">
             <gg-tab></gg-tab>
-            <play-list></play-list>
+            <router-view></router-view>
         </div>
         <div class="right">
 
         </div>
+
     </div>
 </template>
 
 <script>
     import ggTab from '../components/gg-tab/gg-tab'
-    import playList from '@/pages/playlist/playList'
+    // import playList from '@/pages/playlist/playList'
     export default {
         name: "gg-main",
         components: {
             ggTab,
-            playList
+            // playList
         }
     }
 </script>
 
 <style lang="stylus" scoped>
     .main
+        position relative
         box-sizing border-box
         display flex
         width 100%
-        height calc(100vh - 60px)
+        height calc(100vh - 60px - 80px)
         padding 25px
         .left
-            width 75%
+            height calc(100% - 60px)
+            width 78%
             box-sizing border-box
-            border-right 2px solid rgba(0, 0, 0, .6)
         .right
-            width 25%
+            width 22%
 </style>

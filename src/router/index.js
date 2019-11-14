@@ -7,7 +7,16 @@ export default new Router({
     routes: [
         {
             path: '/',
-            component: () => import('@/pages/gg-main.vue')
+            redirect: '/playlist',
+        },
+        {
+            path: '/playlist',
+            component: () => import('@/pages/playlist/playList.vue'),
+        },
+        {
+            path: '/recommend',
+            component: () => import('@/pages/recommend/recommend.vue'),
         }
+
     ]
 })
