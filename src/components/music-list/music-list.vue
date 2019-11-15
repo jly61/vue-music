@@ -46,26 +46,18 @@
                 topList(1).then(res => {
                     if (res.status === 200) {
                         this.list = res.data.playlist.tracks.slice(0, 100);
-                        console.log(res.data.playlist)
+                        console.log(res.data.playlist);
+                        console.log(this.$store.state.isPlay)
                     }
                 })
             })
         },
         methods: {
             play(e) {
-                // if(e.target.innerHTML === '&#xe606;') {
-                //     console.log(1);
-                //     e.target.innerHTML = '&#xe626;'
-                // } else {
-                //     console.log(2);
-                //     e.target.innerHTML = '&#xe606;'
-                // }
                 if(this.isPlay === false) {
-                    console.log(this.isPlay);
                     e.target.innerHTML = '&#xe606;';
                     this.isPlay = true;
                 } else {
-                    console.log(this.isPlay);
                     e.target.innerHTML = '&#xe626;';
                     this.isPlay = false;
                 }

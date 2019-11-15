@@ -2,21 +2,23 @@
     <div id="app">
         <gg-header></gg-header>
         <gg-main></gg-main>
-        <div class="music-bar">
-<!--            //隐藏的播放器-->
-            <audio src="../public/test.mp3"></audio>
-        </div>
+<!--        <div class="music-bar">-->
+<!--            <audio src="../public/test.mp3"></audio>-->
+<!--        </div>-->
+        <music-bar></music-bar>
     </div>
 </template>
 
 <script>
     import ggHeader from './components/gg-header/gg-header'
     import ggMain from './pages/gg-main'
+    import musicBar from './components/music-bar/music-bar'
     export default {
         name: 'app',
         components: {
             ggHeader,
-            ggMain
+            ggMain,
+            musicBar
         }
     }
 </script>
@@ -44,12 +46,6 @@
         opacity: .9;
         filter: blur(12px);
     }
-    .music-bar {
-        height: 80px;
-        width: 100%;
-        box-sizing: border-box;
-        padding-bottom: 15px
-        /*background #fff*/
-    }
+
 
 </style>

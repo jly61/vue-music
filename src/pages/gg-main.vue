@@ -29,8 +29,8 @@
         box-sizing border-box
         display flex
         width 100%
-        height calc(100vh - 60px - 80px)
-        padding 25px
+        height calc(100vh - 60px - 80px - 25px)
+        padding 25px 25px 0 25px
         .left
             height calc(100% - 60px)
             width 78%
