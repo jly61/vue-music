@@ -11,14 +11,17 @@
                 <span class="list-num" v-text="index + 1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
-                    <div class="list-menu" >
-                        <i class="iconfont icon-play iconpause"></i>
+                    <div class="list-menu">
+                        <i class="iconfont icon-play"
+                           :class="[$store.state.playing && currentMusicId === item.id ? 'iconplay' : 'iconpause']"
+                           @click="getMusicInfo(item)"
+                        ></i>
                     </div>
                 </div>
                 <span class="list-artist">{{item.ar[0].name}}</span>
                 <span class="list-time">
                     {{Math.floor(item.dt / 1000) | format}}
-<!--                    <i class="iconfont iconclose">&#xe611;</i>-->
+                    <!--                    <i class="iconfont iconclose"></i>-->
                 </span>
             </div>
         </div>
@@ -34,6 +37,7 @@
         data() {
             return {
                 list: [],
+                currentMusicId: 0,
             }
         },
         filters: {
@@ -50,7 +54,18 @@
             })
         },
         methods: {
-
+            getMusicInfo(item) {
+                this.$store.commit('getCurrentMusicInfo', item);
+                if(this.currentMusicId === item.id) {
+                    this.$store.commit('changePlay');
+                    // console.log(`11:${this.$store.state.playing}`)
+                } else {
+                    this.currentMusicId = item.id;
+                    this.$store.commit('changePlay', true);
+                    // console.log(`22:${this.$store.state.playing}`)
+                }
+                this.bus.$emit('playMusic');
+            }
         }
     }
 </script>
@@ -98,19 +113,24 @@
             overflow-x hidden
             overflow-y auto
             height 100%
-            .list-item:hover .list-menu{
+
+            .list-item:hover .list-menu {
                 display block
             }
+
             .list-name
                 position relative
+
                 .list-menu
                     position absolute
                     display none
                     right 10px
                     top 0
+
                     &:hover
                         color $highLight
                         cursor pointer
+
                     .icon-play
                         font-size 40px
 
@@ -136,6 +156,7 @@
 
     .icon-delete
         font-size 32px
+
         &:hover
             color #fff
             cursor pointer

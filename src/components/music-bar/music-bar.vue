@@ -2,7 +2,9 @@
     <div class="music-bar">
         <div class="btns">
             <i class="iconfont iconprev"></i>
-            <div class="iconfont play iconpause"></div>
+            <div class="iconfont play" :class="[$store.state.playing ? 'iconplay' : 'iconpause']"
+            @click="playMusic"
+            ></div>
             <i class="iconfont iconnext"></i>
         </div>
         <div class="main">
@@ -18,7 +20,7 @@
             <i class="iconfont iconvolume"></i>
             <progress-bar></progress-bar>
         </div>
-<!--        <audio :src="$store.state.musicUrl" ref="audio" controls></audio>-->
+        <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${$store.state.currentMusicInfo.id}`" controls autoplay></audio>
     </div>
 </template>
 
@@ -38,6 +40,28 @@
         },
         filters: {
             format
+        },
+        updated() {
+            this.$nextTick(() => {
+                this.bus.$on('playMusic', () => {
+                    if(this.$store.state.playing) {
+                        this.$refs.audio.play()
+                    } else {
+                        this.$refs.audio.pause();
+                    }
+                })
+            })
+        },
+        methods: {
+            playMusic() {
+                if(this.$store.state.playing) {
+                    this.$refs.audio.pause()
+                    this.$store.commit('changePlay');
+                } else {
+                    this.$refs.audio.play();
+                    this.$store.commit('changePlay');
+                }
+            }
         }
     }
 </script>
