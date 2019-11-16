@@ -15,6 +15,8 @@
 </script>
 
 <style lang="stylus" scoped>
+    @import "~style/mixin.styl"
+    @import "~style/var.styl"
     .progress-bar
         position relative
         width 100%
@@ -24,18 +26,18 @@
             top 2px
             width 10px
             height 10px
-            background-color #fff
+            background-color $highLight
             border-radius 50%
         .outer
             position absolute
             top 6px
             width 100%
             height 2px
-            background rgba(255, 255, 255, 0.6)
+            background $fontColor
         .inner
             position absolute
             top 6px
-            width 50%
+            width 30%
             height 2px
             background #fff
 

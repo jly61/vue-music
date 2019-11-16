@@ -13,12 +13,10 @@
 
 <script>
     import ggTab from '../components/gg-tab/gg-tab'
-    // import playList from '@/pages/playlist/playList'
     export default {
         name: "gg-main",
         components: {
             ggTab,
-            // playList
         }
     }
 </script>

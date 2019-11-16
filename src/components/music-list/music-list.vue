@@ -6,19 +6,19 @@
             <span class="list-artist">歌手</span>
             <span class="list-time">时长</span>
         </div>
-        <div class="list-content">
+        <div class="list-content" ref="listContent">
             <div class="list-item" v-for="(item, index) in list" :key="item.id">
                 <span class="list-num" v-text="index + 1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
                     <div class="list-menu" >
-                        <i class="iconfont icon-play" @click="play">&#xe626;</i>
+                        <i class="iconfont icon-play iconpause"></i>
                     </div>
                 </div>
                 <span class="list-artist">{{item.ar[0].name}}</span>
                 <span class="list-time">
                     {{Math.floor(item.dt / 1000) | format}}
-<!--                    <i class="iconfont icon-delete">&#xe611;</i>-->
+<!--                    <i class="iconfont iconclose">&#xe611;</i>-->
                 </span>
             </div>
         </div>
@@ -34,8 +34,6 @@
         data() {
             return {
                 list: [],
-                //播放按钮
-                isPlay: false
             }
         },
         filters: {
@@ -47,29 +45,19 @@
                     if (res.status === 200) {
                         this.list = res.data.playlist.tracks.slice(0, 100);
                         console.log(res.data.playlist);
-                        console.log(this.$store.state.isPlay)
                     }
                 })
             })
         },
         methods: {
-            play(e) {
-                if(this.isPlay === false) {
-                    e.target.innerHTML = '&#xe606;';
-                    this.isPlay = true;
-                } else {
-                    e.target.innerHTML = '&#xe626;';
-                    this.isPlay = false;
-                }
-                // return e.target.innerHTML === '&#xe606;' ? e.target.innerHTML = '&#xe626;' : e.target.innerHTML = '&#xe606;'
-            }
+
         }
     }
 </script>
 
 <style lang="stylus" scoped>
     @import "~style/mixin.styl"
-    @import "~style/iconfont.css"
+    @import "~style/var.styl"
     //滚动条美化
     /*滚动条的宽度*/
     ::-webkit-scrollbar
@@ -83,7 +71,7 @@
 
     /*滚动条的设置*/
     ::-webkit-scrollbar-thumb
-        background-color rgba(255, 255, 255, 0.6)
+        background-color $fontColor
         border-radius 10px
 
     .list-item
@@ -97,7 +85,7 @@
 
     .musicList
         height 100%
-        color rgba(255, 255, 255, 0.6)
+        color $fontColor
 
         .list-head
             color #fff
@@ -121,7 +109,7 @@
                     right 10px
                     top 0
                     &:hover
-                        color #fff
+                        color $highLight
                         cursor pointer
                     .icon-play
                         font-size 40px

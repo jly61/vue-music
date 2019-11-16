@@ -1,32 +1,43 @@
 <template>
     <div class="music-bar">
         <div class="btns">
-            <i class="iconfont icon-prev">&#xe76e;</i>
-            <div class="iconfont play">&#xe630;</div>
-            <i class="iconfont icon-next">&#xe76d;</i>
+            <i class="iconfont iconprev"></i>
+            <div class="iconfont play iconpause"></div>
+            <i class="iconfont iconnext"></i>
         </div>
         <div class="main">
             <div class="progress-title">
-                <div class="music-info">欢迎使用ggPlayer在线音乐播放器</div>
-                <div class="time">03:11</div>
+                <div class="music-info">{{$store.state.musicName}}</div>
+                <div class="time">{{$store.state.duration | format}}</div>
             </div>
             <progress-bar></progress-bar>
         </div>
-        <i class="iconfont mode">&#xe61b;</i>
-        <i class="iconfont comment">&#xe638;</i>
+        <i class="iconfont iconloop"></i>
+        <i class="iconfont iconcomment"></i>
         <div class="volume">
-            <i class="iconfont volume-icon">&#xe8c1;</i>
+            <i class="iconfont iconvolume"></i>
             <progress-bar></progress-bar>
         </div>
+<!--        <audio :src="$store.state.musicUrl" ref="audio" controls></audio>-->
     </div>
 </template>
 
 <script>
     import progressBar from '@/base/progress-bar/progress-bar'
+    import {format} from "@/utils/util";
+
     export default {
         name: "music-bar",
         components: {
             progressBar
+        },
+        data() {
+            return {
+
+            }
+        },
+        filters: {
+            format
         }
     }
 </script>
@@ -44,6 +55,8 @@
         color #fff
         .iconfont
             font-size 40px
+            &:hover
+                cursor pointer
         .btns
             display: flex
             width 180px
@@ -63,7 +76,7 @@
                 height 16px
                 line-height 16px
                 padding-right 10px
-        .mode,.comment,.volume
+        .iconloop,.iconcomment,.iconvolume
             margin-left 20px
             font-size 24px
         .volume
@@ -72,4 +85,5 @@
             width 150px
             .progress-bar
                 flex 1
+
 </style>
