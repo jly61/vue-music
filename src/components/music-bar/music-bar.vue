@@ -1,26 +1,26 @@
 <template>
     <div class="music-bar">
         <div class="btns">
-            <i class="iconfont iconprev"></i>
+            <i class="iconfont iconprev" @click="prevOrNext('prev')"></i>
             <div class="iconfont play" :class="[$store.state.playing ? 'iconplay' : 'iconpause']"
             @click="playMusic"
             ></div>
-            <i class="iconfont iconnext"></i>
+            <i class="iconfont iconnext" @click="prevOrNext('next')"></i>
         </div>
         <div class="main">
             <div class="progress-title">
-                <div class="music-info">{{$store.state.musicName}}</div>
-                <div class="time">{{$store.state.duration | format}}</div>
+                <div class="music-info">{{musicInfo.title}}</div>
+                <div class="time">{{musicInfo.time | format}}</div>
             </div>
-            <progress-bar></progress-bar>
+            <progress-bar :percent="musicPercent"></progress-bar>
         </div>
         <i class="iconfont iconloop"></i>
         <i class="iconfont iconcomment"></i>
         <div class="volume">
             <i class="iconfont iconvolume"></i>
-            <progress-bar></progress-bar>
+            <progress-bar :percent="musicPercent"></progress-bar>
         </div>
-        <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${$store.state.currentMusicInfo.id}`" controls autoplay></audio>
+        <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${$store.state.currentMusicInfo.id}`" autoplay></audio>
     </div>
 </template>
 
@@ -35,11 +35,44 @@
         },
         data() {
             return {
-
+                currentTime: 0,
+                duration: -1,
             }
         },
         filters: {
             format
+        },
+        computed: {
+            //格式化播放器数据
+            musicInfo() {
+                if(Object.keys(this.$store.state.currentMusicInfo).length > 0) {
+                    return {
+                        title: `${this.$store.state.currentMusicInfo.name} - ${this.$store.state.currentMusicInfo.ar[0].name}`,
+                        time: Math.floor(this.$store.state.currentMusicInfo.dt / 1000)
+                    }
+                } else {
+                    return {
+                        title: 'ggPlayer音乐播放器',
+                        time: '',
+                    }
+                }
+            },
+            musicPercent() {
+                if (Object.keys(this.$store.state.currentMusicInfo).length > 0) {
+                    return this.currentTime / this.duration;
+                } else {
+                    return 0
+                }
+
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                //设置初始音量
+                this.$refs.audio.volume = this.$store.state.volume;
+                this.$refs.audio.addEventListener('timeupdate', this._currentTime);
+                this.$refs.audio.addEventListener('canplay', this._durationTime);
+            })
         },
         updated() {
             this.$nextTick(() => {
@@ -55,12 +88,28 @@
         methods: {
             playMusic() {
                 if(this.$store.state.playing) {
-                    this.$refs.audio.pause()
+                    this.$refs.audio.pause();
                     this.$store.commit('changePlay');
                 } else {
                     this.$refs.audio.play();
                     this.$store.commit('changePlay');
                 }
+            },
+            // 上一曲或下一曲
+            prevOrNext(flag) {
+                this.$store.commit('prevMusic',flag);
+            },
+            addEventListeners: function () {
+
+
+            },
+            _currentTime: function () {
+                this.currentTime = this.$refs.audio.currentTime
+                // console.log(`当前播放时间:${this.currentTime},类型:${typeof this.currentTime}`)
+            },
+            _durationTime: function () {
+                this.duration = this.$refs.audio.duration
+                // console.log(`总时长:${this.duration},类型:${typeof this.duration}`)
             }
         }
     }

@@ -1,8 +1,9 @@
 const state = {
     playing: false,
+    playList: [],
     currentMusicInfo: {},
+    currentMusicIndex: -1,
     volume: '0.4',
-    musicName: '欢迎使用ggPlayer在线音乐播放器',
-    duration: ''
+    duration: 0
 };
 export default state

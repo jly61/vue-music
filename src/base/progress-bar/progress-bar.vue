@@ -1,16 +1,45 @@
 <template>
     <div class="progress-bar">
-        <div class="point"></div>
+        <div class="point" ref="point"></div>
         <!--        播放总长度-->
-        <div class="outer"></div>
+        <div class="outer" ref="outer"></div>
         <!--        已经播放-->
-        <div class="inner"></div>
+        <div class="inner" ref="inner">{{innerWidth}}</div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "progress-bar"
+        name: "progress-bar",
+        props: {
+            percent: {
+                type: Number
+            }
+        },
+        data() {
+            return {
+                // innerWidth: 0
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+
+                console.log(`outer:${this.$refs.outer.clientWidth}`);
+                console.log(`inner:${this.$refs.inner.clientWidth}`)
+            })
+        },
+        computed: {
+            innerWidth() {
+                if(this.percent > 0) {
+                    let width = this.$refs.outer.clientWidth * this.percent;
+                    this.$refs.inner.style.width = `${width}px`;
+                    this.$refs.point.style.left = `${width}px`
+                } else {
+                    return 0
+                }
+            }
+        }
+
     }
 </script>
 

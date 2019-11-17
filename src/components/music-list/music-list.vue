@@ -7,14 +7,14 @@
             <span class="list-time">时长</span>
         </div>
         <div class="list-content" ref="listContent">
-            <div class="list-item" v-for="(item, index) in list" :key="item.id">
+            <div class="list-item" v-for="(item, index) in $store.state.playList" :key="item.id">
                 <span class="list-num" v-text="index + 1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
                     <div class="list-menu">
                         <i class="iconfont icon-play"
                            :class="[$store.state.playing && currentMusicId === item.id ? 'iconplay' : 'iconpause']"
-                           @click="getMusicInfo(item)"
+                           @click="getMusicInfo(item, index)"
                         ></i>
                     </div>
                 </div>
@@ -36,7 +36,6 @@
         name: "music-list",
         data() {
             return {
-                list: [],
                 currentMusicId: 0,
             }
         },
@@ -47,15 +46,17 @@
             this.$nextTick(() => {
                 topList(1).then(res => {
                     if (res.status === 200) {
-                        this.list = res.data.playlist.tracks.slice(0, 100);
-                        console.log(res.data.playlist);
+                        this.$store.commit('getPlayList', res.data.playlist.tracks.slice(0, 100));
+                        console.log(this.$store.state.playList)
+
                     }
                 })
             })
         },
         methods: {
-            getMusicInfo(item) {
+            getMusicInfo(item, index) {
                 this.$store.commit('getCurrentMusicInfo', item);
+                this.$store.commit('getCurrentMusicIndex', index);
                 if(this.currentMusicId === item.id) {
                     this.$store.commit('changePlay');
                     // console.log(`11:${this.$store.state.playing}`)
