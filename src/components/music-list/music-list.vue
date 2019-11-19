@@ -1,13 +1,14 @@
 <template>
     <!--    歌曲列表-->
-    <div class="musicList">
+    <div class="musicList" v-if="list.length > 0" ref="musicList">
         <div class="list-head list-item">
             <span class="list-name">歌曲</span>
             <span class="list-artist">歌手</span>
-            <span class="list-time">时长</span>
+            <span v-if="listType === 1" class="list-time">时长</span>
+            <span v-else class="list-album">专辑</span>
         </div>
-        <div class="list-content" ref="listContent">
-            <div class="list-item" v-for="(item, index) in $store.state.playList" :key="item.id">
+        <div class="list-content" ref="listContent" @scroll="listScroll">
+            <div class="list-item" v-for="(item, index) in list" :key="item.id">
                 <span class="list-num" v-text="index + 1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
@@ -18,10 +19,13 @@
                         ></i>
                     </div>
                 </div>
-                <span class="list-artist">{{item.ar[0].name}}</span>
-                <span class="list-time">
-                    {{Math.floor(item.dt / 1000) | format}}
+                <span class="list-artist">{{item.singer}}</span>
+                <span v-if="listType === 1" class="list-time">
+                    {{Math.floor(item.duration) | format}}
                     <!--                    <i class="iconfont iconclose"></i>-->
+                </span>
+                <span v-else="listType === 2" class="list-album">
+                    {{item.album}}
                 </span>
             </div>
         </div>
@@ -37,27 +41,28 @@
         data() {
             return {
                 currentMusicId: 0,
+                lastTime: 0
             }
         },
         filters: {
             format
         },
-        created() {
-            this.$nextTick(() => {
-                topList(1).then(res => {
-                    if (res.status === 200) {
-                        this.$store.commit('getPlayList', res.data.playlist.tracks.slice(0, 100));
-                        console.log(this.$store.state.playList)
-
-                    }
-                })
-            })
+        props: {
+            // 从父组件接收的列表
+            list: {
+                type: Array
+            },
+            // 从父组件接收的列表类型
+            listType: {
+                type: Number
+            }
         },
         methods: {
+            // 获取当前歌曲信息
             getMusicInfo(item, index) {
                 this.$store.commit('getCurrentMusicInfo', item);
                 this.$store.commit('getCurrentMusicIndex', index);
-                if(this.currentMusicId === item.id) {
+                if (this.currentMusicId === item.id) {
                     this.$store.commit('changePlay');
                     // console.log(`11:${this.$store.state.playing}`)
                 } else {
@@ -66,6 +71,23 @@
                     // console.log(`22:${this.$store.state.playing}`)
                 }
                 this.bus.$emit('playMusic');
+            },
+            listScroll(e) {
+                const scrollTop = e.target.scrollTop;
+                const {scrollHeight, offsetHeight} = e.target;
+                if (this.listType !== 2) {
+                    return
+                }
+                if (scrollTop + offsetHeight > scrollHeight - 50) {
+                    this.nowTime = new Date().getTime();
+                    if (this.nowTime - this.lastTime > 1000) {
+                        console.log(this.nowTime, this.lastTime)
+                        this.$emit('triggerSearch');
+                        this.lastTime = this.nowTime;
+                    } else {
+                        this.lastTime = 0
+                    }
+                }
             }
         }
     }
@@ -112,7 +134,7 @@
 
         .list-content
             overflow-x hidden
-            overflow-y auto
+            overflow-y scroll
             height 100%
 
             .list-item:hover .list-menu {
@@ -154,6 +176,10 @@
     .list-time
         display block
         width 60px
+
+    .list-album
+        display block
+        width 300px
 
     .icon-delete
         font-size 32px

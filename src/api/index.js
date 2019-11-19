@@ -8,3 +8,20 @@ export function topList(idx) {
         }
     })
 }
+
+// 获取热门搜索列表
+export function hotSearch() {
+    return axios.get('/api/search/hot')
+}
+
+// 搜索歌曲
+export function search(keyword, page = 0, limit = 30) {
+    return axios.get('/api/search', {
+        params: {
+            offset: page * limit,
+            // 返回数量
+            limit: limit,
+            keywords: keyword,
+        }
+    })
+}

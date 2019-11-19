@@ -4,7 +4,7 @@ const mutations = {
     },
     getCurrentMusicInfo(state, item) {
         state.currentMusicInfo = item;
-        state.duration = item.dt
+        state.duration = item.duration
         // state.currentMusicInfo = index;
     },
     getPlayList(state, list) {
@@ -13,6 +13,7 @@ const mutations = {
     getCurrentMusicIndex(state, index) {
         state.currentMusicIndex = index
     },
+    //上一曲或下一曲
     prevMusic(state, flag) {
         if (flag === 'prev') {
             state.currentMusicIndex = state.currentMusicIndex - 1;

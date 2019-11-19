@@ -24,8 +24,8 @@
         mounted() {
             this.$nextTick(() => {
 
-                console.log(`outer:${this.$refs.outer.clientWidth}`);
-                console.log(`inner:${this.$refs.inner.clientWidth}`)
+                // console.log(`outer:${this.$refs.outer.clientWidth}`);
+                // console.log(`inner:${this.$refs.inner.clientWidth}`)
             })
         },
         computed: {

@@ -47,8 +47,8 @@
             musicInfo() {
                 if(Object.keys(this.$store.state.currentMusicInfo).length > 0) {
                     return {
-                        title: `${this.$store.state.currentMusicInfo.name} - ${this.$store.state.currentMusicInfo.ar[0].name}`,
-                        time: Math.floor(this.$store.state.currentMusicInfo.dt / 1000)
+                        title: `${this.$store.state.currentMusicInfo.name} - ${this.$store.state.currentMusicInfo.singer}`,
+                        time: Math.floor(this.$store.state.currentMusicInfo.duration)
                     }
                 } else {
                     return {
@@ -98,10 +98,6 @@
             // 上一曲或下一曲
             prevOrNext(flag) {
                 this.$store.commit('prevMusic',flag);
-            },
-            addEventListeners: function () {
-
-
             },
             _currentTime: function () {
                 this.currentTime = this.$refs.audio.currentTime

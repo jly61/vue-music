@@ -14,6 +14,10 @@ export default new Router({
             component: () => import('@/pages/playlist/playList.vue'),
         },
         {
+            path: '/search',
+            component: () => import('@/pages/search/search.vue'),
+        },
+        {
             path: '/recommend',
             component: () => import('@/pages/recommend/recommend.vue'),
         }

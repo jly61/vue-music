@@ -2,7 +2,7 @@
     <nav class="gg-tab">
         <router-link tag="span" to="/playlist" class="active">正在播放</router-link>
         <router-link tag="span" to="/recommend">推荐</router-link>
-        <router-link tag="span" to="">搜索</router-link>
+        <router-link tag="span" to="/search">搜索</router-link>
         <router-link tag="span" to="">我的歌单</router-link>
         <router-link tag="span" to="">我听过的</router-link>
     </nav>
