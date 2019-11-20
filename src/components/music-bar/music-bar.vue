@@ -100,6 +100,7 @@
                 this.$store.commit('prevMusic',flag);
             },
             _currentTime: function () {
+                console.log(this.$refs.audio.currentTime, this.$refs.audio.duration)
                 this.currentTime = this.$refs.audio.currentTime
                 // console.log(`当前播放时间:${this.currentTime},类型:${typeof this.currentTime}`)
             },

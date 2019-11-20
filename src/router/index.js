@@ -20,6 +20,10 @@ export default new Router({
         {
             path: '/recommend',
             component: () => import('@/pages/recommend/recommend.vue'),
+        },
+        {
+            path: '/detail/:id',
+            component: () => import('@/pages/detail/detail.vue'),
         }
 
     ]

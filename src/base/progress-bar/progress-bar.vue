@@ -1,5 +1,5 @@
 <template>
-    <div class="progress-bar">
+    <div class="progress-bar" @click="barClick($event)">
         <div class="point" ref="point"></div>
         <!--        播放总长度-->
         <div class="outer" ref="outer"></div>
@@ -18,7 +18,7 @@
         },
         data() {
             return {
-                // innerWidth: 0
+
             }
         },
         mounted() {
@@ -38,6 +38,15 @@
                     return
                 }
             }
+        },
+        methods: {
+            barClick(e) {
+                let clientX = e.clientX;
+                let rect = e.target.getBoundingClientRect().x;
+                let width = clientX - rect;
+                this.$refs.inner.style.width = `${width}px`;
+                this.$refs.point.style.left = `${width}px`
+            }
         }
 
     }
@@ -50,6 +59,8 @@
         position relative
         width 100%
         height 14px
+        &:hover
+            cursor pointer
         .point
             position absolute
             top 2px

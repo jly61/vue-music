@@ -23,13 +23,14 @@
     }
 </script>
 
-<style>
+<style lang="stylus">
     #app {
         font-family: Arial, 'Avenir', Helvetica, sans-serif;
         font-size: 14px;
         width: 100%;
         height: 100%;
         overflow: hidden;
+        color: rgba(255, 255, 255, .6);
     }
     /*毛玻璃效果*/
     #app::before {
