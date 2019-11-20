@@ -58,6 +58,9 @@ export const formatTopSongs = function formatTopList(list) {
 
 export const formatSongs = function formatPlayList(list) {
     let Songs = [];
+    if(list === undefined) {
+        return []
+    }
     list.forEach(item => {
         if (item.id) {
             Songs.push(createPlayList(item))

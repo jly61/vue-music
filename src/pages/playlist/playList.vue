@@ -13,7 +13,8 @@
         name: "playList",
         data() {
             return {
-                playlist: []
+                playlist: [],
+                loading: false  // 加载
             }
         },
         components: {

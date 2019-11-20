@@ -21,6 +21,10 @@ const mutations = {
             state.currentMusicIndex = state.currentMusicIndex + 1;
         }
         state.currentMusicInfo = state.playList[state.currentMusicIndex]
+    },
+    // 滚动加载
+    changeLoading(state) {
+        state.loading = !state.loading
     }
 };
 

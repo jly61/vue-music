@@ -8,7 +8,7 @@
             <span v-else class="list-album">专辑</span>
         </div>
         <div class="list-content" ref="listContent" @scroll="listScroll">
-            <div class="list-item" v-for="(item, index) in list" :key="item.id">
+            <div class="list-item" v-for="(item, index) in list" :key="index">
                 <span class="list-num" v-text="index + 1"></span>
                 <div class="list-name">
                     <span>{{item.name}}</span>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-    import {topList} from "@/api";
     import {format} from "@/utils/util";
 
     export default {
@@ -75,20 +74,15 @@
             listScroll(e) {
                 const scrollTop = e.target.scrollTop;
                 const {scrollHeight, offsetHeight} = e.target;
-                if (this.listType !== 2) {
+                if (this.listType !== 2 ) {
                     return
                 }
-                if (scrollTop + offsetHeight > scrollHeight - 50) {
-                    this.nowTime = new Date().getTime();
-                    if (this.nowTime - this.lastTime > 1000) {
-                        console.log(this.nowTime, this.lastTime)
-                        this.$emit('triggerSearch');
-                        this.lastTime = this.nowTime;
-                    } else {
-                        this.lastTime = 0
-                    }
+                if (scrollTop + offsetHeight > scrollHeight - 50 && this.$store.state.loading === false) {
+                    this.$store.commit('changeLoading');
+                    this.$emit('triggerSearch', false)
                 }
-            }
+            },
+
         }
     }
 </script>
@@ -180,6 +174,7 @@
     .list-album
         display block
         width 300px
+        no-wrap()
 
     .icon-delete
         font-size 32px

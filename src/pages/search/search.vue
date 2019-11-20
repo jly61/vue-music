@@ -1,7 +1,7 @@
 <template>
     <div class="search">
         <div class="search-header">
-            <span v-for="item in hotSearchList">{{item.first}}</span>
+            <span v-for="item in hotSearchList" @click="clickHot(item.first)">{{item.first}}</span>
             <input type="text" placeholder="音乐/歌手/mv" class="search-input" @keyup.enter="onEnter"
                    v-model.trim="searchValue"
                    autofocus>
@@ -25,7 +25,7 @@
                 hotSearchList: [], // 热搜列表
                 searchValue: '', // 搜索关键词
                 searchResult: [], // 搜索结果
-                page: 0 // 分页
+                page: 0, // 分页
             }
         },
         created() {
@@ -37,6 +37,11 @@
             })
         },
         methods: {
+            // 点击热门搜索
+            clickHot(value) {
+                this.searchValue = value;
+                this.onEnter();
+            },
             onEnter() {
                 if(this.searchValue === '') {
                     alert('搜索内容不能为空')
@@ -50,10 +55,14 @@
             // 滚动加载下一页
             loadNextPage() {
                 this.page += 1;
+                // 计算页数
+                if (this.page > Math.ceil(this.songCount) / 30 - 1) {
+                    return
+                }
                 search(this.searchValue, this.page).then(res => {
-                    this.searchResult = [...this.searchResult, ...formatSongs(res.data.result.songs)]
-                    console.log(res.data.result.songs);
-                    // console.log(this.searchResult);
+                    this.songCount = res.data.result.songCount;
+                    this.searchResult = [...this.searchResult, ...formatSongs(res.data.result.songs)];
+                    this.$store.commit('changeLoading');
                 })
             }
         }

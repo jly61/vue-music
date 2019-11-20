@@ -35,7 +35,7 @@
                     this.$refs.inner.style.width = `${width}px`;
                     this.$refs.point.style.left = `${width}px`
                 } else {
-                    return 0
+                    return
                 }
             }
         }
