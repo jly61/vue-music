@@ -20,10 +20,10 @@
             }
         },
         created() {
-            console.log(1);
             getPlaylistDetail(this.$route.params.id).then(res => {
                 if(res.data.code === 200) {
                     this.list = formatTopSongs(res.data.playlist.tracks.slice(0 ,100))
+                    this.$store.commit('getPlayList', this.list);
                 }
             })
         }

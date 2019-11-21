@@ -20,7 +20,7 @@
             <i class="iconfont iconvolume"></i>
             <progress-bar :percent="musicPercent"></progress-bar>
         </div>
-        <audio ref="audio" :src="`https://music.163.com/song/media/outer/url?id=${$store.state.currentMusicInfo.id}`" autoplay></audio>
+        <audio ref="audio" controls :src="`https://music.163.com/song/media/outer/url?id=${$store.state.currentMusicInfo.id}`" autoplay></audio>
     </div>
 </template>
 
@@ -72,6 +72,7 @@
                 this.$refs.audio.volume = this.$store.state.volume;
                 this.$refs.audio.addEventListener('timeupdate', this._currentTime);
                 this.$refs.audio.addEventListener('canplay', this._durationTime);
+                this.$refs.audio.addEventListener('ended', this.autoPlayNext);
             })
         },
         updated() {
@@ -99,14 +100,17 @@
             prevOrNext(flag) {
                 this.$store.commit('prevMusic',flag);
             },
-            _currentTime: function () {
-                console.log(this.$refs.audio.currentTime, this.$refs.audio.duration)
-                this.currentTime = this.$refs.audio.currentTime
-                // console.log(`当前播放时间:${this.currentTime},类型:${typeof this.currentTime}`)
+            _currentTime() {
+                // console.log(this.$refs.audio.currentTime, this.$refs.audio.duration)
+                this.currentTime = this.$refs.audio.currentTime || 0
             },
-            _durationTime: function () {
+            _durationTime() {
                 this.duration = this.$refs.audio.duration
-                // console.log(`总时长:${this.duration},类型:${typeof this.duration}`)
+            },
+            // 自动播放下一首
+            autoPlayNext() {
+                this.$store.commit('prevMusic','next');
+                // console.log('播放完毕')
             }
         }
     }
